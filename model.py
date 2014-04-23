@@ -1,10 +1,13 @@
 from sqlalchemy.ext.declarative import declarative_base
 
+from sqlalchemy.types import Enum
+
 from sqlalchemy import (
     Column,
     create_engine,
     Integer,
-    String,
+    # String,
+    Text,
 )
 
 from sqlalchemy.orm import (
@@ -28,12 +31,21 @@ Base.query = session.query_property()
 #     username = Column(String(80), unique=True)
 #     email = Column(String(120), unique=True)
 
+#     TODO: figure out if I want a login feature
+
 
 class Pins(Base):
     __tablename__ = 'pins'
     id = Column(Integer, primary_key=True)
-    # TODO: finish this table
+    genre = Column(Enum('history', 'historical_fiction'))
+    name = Column(Text())
+    birth_year = Column(Text())
+    death_year = Column(Text())
+    bio = Column(Text())
+    url = Column(Text())
+
     # TODO: init database
+
 
 def main():
 
