@@ -5,7 +5,9 @@ app = Flask(__name__)
 
 from model import (
     session as db_session,
-    # User,
+    User,
+    Book,
+    Location,
 )
 
 app = Flask(__name__)
@@ -18,11 +20,18 @@ def hello():
 
 @app.route("/pins", methods=['POST'])
 def create_pin():
+    '''
+    This function adds a pin to the map.
+    If there's a logged in user, the pin should be readily approved and added.
+    If there's not a logged in user, the pin should be sent to admin for approval.
+    '''
     pass
 
 
 @app.route("/pins", methods=['GET'])
 def get_pins():
+    # TODO: split this function out to get historical and
+    # historical fiction pins seperately.
     pass
 
 

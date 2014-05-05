@@ -3,17 +3,19 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.types import Enum
 
 from sqlalchemy import (
+    Boolean,
     Column,
     create_engine,
+    Float,
     ForeignKey,
     Integer,
-    # String,
     Text,
 )
 
 from sqlalchemy.orm import (
     scoped_session,
     sessionmaker,
+    relationship,
 )
 
 
@@ -33,16 +35,28 @@ class User(Base):
     email = Column(Text(), unique=True)
 
 
-class Pin(Base):
-    __tablename__ = 'pins'
+class Book(Base):
+    __tablename__ = 'books'
     id = Column(Integer, primary_key=True)
-    genre = Column(Enum('history', 'historical_fiction'))
     title = Column(Text())
-    birth_year = Column(Text())
-    death_year = Column(Text())
+    genre = Column(Enum('history', 'historical_fiction'))
     bio = Column(Text())
     url = Column(Text())
-    pin_author = Column(Integer(), ForeignKey('users.id'), nullable=False)
+    author = Column(Integer(), ForeignKey('users.id'), nullable=False)
+    subject_birth_year = Column(Text())
+    subject_death_year = Column(Text())
+    added_by = Column(Integer(), ForeignKey('users.id'), nullable=False)
+    location = relationship('Location', uselist=False)
+    is_approved = Column(Boolean, default=False)
+    flagged_count = Column(Integer())
+
+
+class Location(Base):
+    __tablename__ = 'locations'
+    id = Column(Integer, primary_key=True)
+    latitude = Column(Float())
+    longitude = Column(Float())
+    books = relationship('Book', uselist=True)
 
     # TODO: init database
 
